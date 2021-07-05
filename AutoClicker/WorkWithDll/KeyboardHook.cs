@@ -32,22 +32,22 @@ namespace AutoClicker.WorkWithDll
 
         public event EventHandler<KeyPressedArgs> OnKeyPressed;
 
-        private readonly LowLevelKeyboardProc Proc;
-        private IntPtr HookID = IntPtr.Zero;
+        private readonly LowLevelKeyboardProc _proc;
+        private IntPtr _hookId = IntPtr.Zero;
 
         public LowLevelKeyboardListener()
         {
-            Proc = HookCallback;
+            _proc = HookCallback;
         }
 
         public void HookKeyboard()
         {
-            HookID = SetHook(Proc);
+            _hookId = SetHook(_proc);
         }
 
         public void UnHookKeyboard()
         {
-            UnhookWindowsHookEx(HookID);
+            UnhookWindowsHookEx(_hookId);
         }
 
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -62,16 +62,16 @@ namespace AutoClicker.WorkWithDll
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
-                OnKeyPressed?.Invoke(this, new KeyPressedArgs(KeyInterop.KeyFromVirtualKey(vkCode))); 
+                OnKeyPressed?.Invoke(this, new KeyPressedArgs(KeyInterop.KeyFromVirtualKey(vkCode)));
             }
 
-            return CallNextHookEx(HookID, nCode, wParam, lParam);
+            return CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
     }
 
     public class KeyPressedArgs : EventArgs
     {
-        public Key KeyPressed {get; set;}
+        public Key KeyPressed { get; set; }
 
         public KeyPressedArgs(Key key)
         {

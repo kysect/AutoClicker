@@ -5,94 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoClicker"
         mc:Ignorable="d"
-        Title="AutoClicker"
-        Height="400"
-        Width="600"
-        Loaded="Window_Loaded"
-        Closing="Window_Closing">
+        Title="AutoClicker" 
+        Height="250" 
+        Width="400">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <TextBlock
+            Text="AutoClicker"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            FontSize="60"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"/>
         <Button
-            x:Name="StartStop"
-            Grid.Row="3"
-            Grid.Column="3"
-            Content="Start (F9)" 
-            Background="#FF59F109"
-            Click="StartStop_Click"/>
-        <StackPanel 
-            x:Name="DurationPanel"
+            x:Name="LiteButton"
             Grid.Row="1"
-            Grid.Column="1">
-            <TextBlock 
-                Text="Click durations (ms):" 
-                HorizontalAlignment="Center"/>
-            <TextBox
-                x:Name="DurationTextBox"
-                Text="1000"
-                HorizontalAlignment="Center">
-                <TextBox.ToolTip>
-                    Type -1 for infinite loop
-                </TextBox.ToolTip>
-            </TextBox>
-        </StackPanel>
-        <StackPanel 
-            x:Name="ClicksPanel"
+            Grid.Column="0"
+            Content="Lite"
+            FontSize="40"
+            Margin="20,20,20,20"
+            Click="LiteButton_Click"/>
+        <Button
+            x:Name="FullButton"
             Grid.Row="1"
-            Grid.Column="3">
-            <TextBlock 
-                Text="Clicks per second:" 
-                HorizontalAlignment="Center"/>
-            <TextBox
-                x:Name="ClicksTextBox"
-                Text="100"
-                HorizontalAlignment="Center">
-                <TextBox.ToolTip>
-                    Min: 1, Max: 100
-                </TextBox.ToolTip>
-            </TextBox>
-        </StackPanel>
-        <StackPanel 
-            x:Name="CoordsPanel"
-            Grid.Row="3"
             Grid.Column="1"
-            Grid.RowSpan="2">
-            <TextBlock 
-                Text="Coordinates:" 
-                HorizontalAlignment="Center"/>
-            <CheckBox
-                x:Name="CurBox"
-                Content="Current"
-                HorizontalAlignment="Center"
-                Checked="Cur_Checked"
-                Unchecked="Cur_Unchecked"/>
-            <StackPanel
-                x:Name="Coordinates"
-                Orientation="Horizontal"
-                HorizontalAlignment="Center">
-                <TextBlock
-                    Text="X: "/>
-                <TextBox
-                    x:Name="XTextBox"
-                    Text="100"/>
-                <TextBlock
-                    Text=" Y: "/>
-                <TextBox
-                    x:Name="YTextBox"
-                    Text="100"/>
-            </StackPanel>
-        </StackPanel>
+            Content="Full"
+            FontSize="40"
+            Margin="20,20,20,20"
+            Click="FullButton_Click"/>
     </Grid>
 </Window>

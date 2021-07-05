@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace AutoClicker.WorkWithDll
 {
+    [Flags]
+    public enum MouseEventFlags
+    {
+        LeftDown = 0x00000002,
+        LeftUp = 0x00000004,
+        MiddleDown = 0x00000020,
+        MiddleUp = 0x00000040,
+        RightDown = 0x00000008,
+        RightUp = 0x00000010
+    }
     public class MouseClicks
     {
-        [Flags]
-        public enum MouseEventFlags
-        {
-            LeftDown = 0x00000002,
-            LeftUp = 0x00000004,
-            MiddleDown = 0x00000020,
-            MiddleUp = 0x00000040,
-            RightDown = 0x00000008,
-            RightUp = 0x00000010
-        }
 
         [DllImport("user32.dll", EntryPoint = "SetCursorPos")]
         [return: MarshalAs(UnmanagedType.Bool)]
