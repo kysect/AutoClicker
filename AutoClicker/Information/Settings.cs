@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.IO;
-using System.Xml.Serialization;
+using System.Text.Json;
 using System.Windows;
 
 namespace AutoClicker.Information
@@ -24,15 +24,13 @@ namespace AutoClicker.Information
         public Windows LastOpenedWindow { get; set; }
         public void Save(string filename)
         {
-            using var sw = new StreamWriter(filename);
-            var xmls = new XmlSerializer(typeof(MySettings));
-            xmls.Serialize(sw, this);
+            string jsonString = JsonSerializer.Serialize(this);
+            File.WriteAllText(filename, jsonString);
         }
         public static MySettings Load(string filename)
         {
-            using var sr = new StreamReader(filename);
-            var xmls = new XmlSerializer(typeof(MySettings));
-            return (MySettings)xmls.Deserialize(sr);
+            string jsonString = File.ReadAllText(filename);
+            return JsonSerializer.Deserialize<MySettings>(jsonString);
         }
     }
 }

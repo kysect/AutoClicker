@@ -5,65 +5,70 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using AutoClicker.Information;
 using AutoClicker.WorkWithDll;
 
 namespace AutoClicker.LiteVersion
 {
-    public partial class LiteWindow
+    public class Parser
     {
-        public AutoClickerInfo DataParse(ref bool correctInput)
+        private const int MinClicksPerSecond = 1;
+        private const int MaxClicksPerSecond = 100;
+        public static List<string> TryParse(List<string> parameters, out AutoClickerInfo task)
         {
-            var task = new AutoClickerInfo();
+            var errorList = new List<string>();
 
-            if (!int.TryParse(DurationTextBox.Text, out int duration) ||
+            if (!int.TryParse(parameters[0], out int duration) ||
                 duration < -1)
             {
-                MessageBox.Show("Incorrect duration input");
-                correctInput = false;
+                errorList.Add("duration");
             }
-            task.Duration = TimeSpan.FromMilliseconds(duration);
 
-            if (!int.TryParse(ClicksTextBox.Text, out int clicksPerSecond) ||
-                clicksPerSecond < 1 ||
-                clicksPerSecond > 100)
+            if (!int.TryParse(parameters[1], out int clicksPerSecond) ||
+                clicksPerSecond < MinClicksPerSecond ||
+                clicksPerSecond > MaxClicksPerSecond)
             {
-                MessageBox.Show("Incorrect clicks per second input");
-                correctInput = false;
+                errorList.Add("clicks per second");
             }
-            task.ClicksPerSecond = clicksPerSecond;
 
-            if (!int.TryParse(DelayBox.Text, out int delay) ||
-                delay < 0)
+            if (!int.TryParse(parameters[2], out int startDelay) ||
+                startDelay < 0)
             {
-                MessageBox.Show("Incorrect start delay input");
-                correctInput = false;
+                errorList.Add("start delay");
             }
-            task.StartDelay = TimeSpan.FromMilliseconds(delay);
 
-            if (!Enum.TryParse(((TextBlock)((ComboBoxItem)ClicksType.SelectedItem).Content).Text,
-                out Clicks clickType))
+            if (!Enum.TryParse(parameters[3], out Clicks clickType))
             {
-                MessageBox.Show("Incorrect click type input");
-                correctInput = false;
+                errorList.Add("click type");
             }
-            task.ClickType = clickType;
 
-            task.UserCursor = (bool)CurBox.IsChecked;
-            if (!task.UserCursor)
+            if (!bool.TryParse(parameters[4], out bool userCursorActive))
             {
-                int y = 0;
-                if (!int.TryParse(XTextBox.Text, out int x) ||
-                   !int.TryParse(YTextBox.Text, out y) ||
+                errorList.Add("capture of the user cursor");
+            }
+
+            int x = 0, y = 0;
+            if (!userCursorActive)
+            {
+                if (!int.TryParse(parameters[5], out x) ||
+                   !int.TryParse(parameters[6], out y) ||
                    x < 0 ||
                    y < 0)
                 {
-                    MessageBox.Show("Incorrect coordinates input");
-                    correctInput = false;
+                    errorList.Add("coordinates");
                 }
-                task.Point = new MouseClicks.MousePoint(x, y);
             }
-            return task;
+
+            task = new AutoClickerInfo(
+                TimeSpan.FromMilliseconds(duration),
+                clicksPerSecond,
+                TimeSpan.FromMilliseconds(startDelay),
+                clickType,
+                userCursorActive,
+                new MouseClicks.MousePoint(x, y));
+
+            return errorList;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace AutoClicker
     /// </summary>
     public partial class App : Application
     {
-        private const string Filename = "settings.xml";
+        private const string Filename = "settings.json";
         protected override void OnStartup(StartupEventArgs e)
         {
             MySettings.Settings = new MySettings();

@@ -38,7 +38,7 @@ namespace AutoClicker.LiteVersion
             _listener.HookKeyboard();
         }
 
-        private void ListenerOnKeyPressed(object sender, KeyPressedArgs e)
+        private async void ListenerOnKeyPressed(object sender, KeyPressedArgs e)
         {
             if (_pickingInProgress)
             {
@@ -51,7 +51,7 @@ namespace AutoClicker.LiteVersion
                 (!_actionInProgress &&
                  e.KeyPressed == MySettings.Settings.StartButton))
             {
-                AsyncExecution();
+                await AsyncExecution();
             }
         }
 
@@ -60,9 +60,9 @@ namespace AutoClicker.LiteVersion
             _listener.UnHookKeyboard();
         }
 
-        private void StartButton_Click(object sender, RoutedEventArgs e)
+        private async void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            AsyncExecution();
+            await AsyncExecution();
         }
 
         private void SetContent(string content, string backgroundColor, bool actionInProgress)
@@ -82,14 +82,31 @@ namespace AutoClicker.LiteVersion
             SetContent($"Stop ({MySettings.Settings.StopButton})",
                 "#FFF71919", true);
         }
-        private async void AsyncExecution()
+        private async Task AsyncExecution()
         {
             if (!_actionInProgress)
             {
-                bool correctInput = true;
-                AutoClickerInfo task = DataParse(ref correctInput);
-                if (!correctInput)
+                var parameters = new List<string>()
+                {
+                    DurationTextBox.Text,
+                    ClicksTextBox.Text,
+                    DelayBox.Text,
+                    ((TextBlock)((ComboBoxItem)ClicksType.SelectedItem).Content).Text,
+                    CurBox.IsChecked.ToString(),
+                    XTextBox.Text,
+                    YTextBox.Text
+                };
+
+                var errorList = Parser.TryParse(parameters, out AutoClickerInfo task);
+                if (errorList.Count != 0)
+                {
+                    foreach (var errorType in errorList)
+                    {
+                        MessageBox.Show($"Incorrect {errorType} input");
+                    }
+
                     return;
+                }
 
                 SetStop();
 
@@ -101,20 +118,20 @@ namespace AutoClicker.LiteVersion
         private void Execution(AutoClickerInfo task)
         {
             var startPos = MouseClicks.GetCursorPosition();
-            TimeSpan sleepTime = TimeSpan.FromMilliseconds(1000 / task.ClicksPerSecond - 3);
-            int cycles = (int)(task.ClicksPerSecond * task.Duration.TotalSeconds);
+            TimeSpan sleepTime = task.SleepTime();
+            int cycles = task.Cycles();
             Thread.Sleep(task.StartDelay);
             for (int i = 0; i < cycles; i++)
             {
                 if (!_actionInProgress)
                     break;
-                if (!task.UserCursor)
+                if (!task.UserCursorActive)
                     MouseClicks.SetCursorPosition(task.Point);
                 Thread.Sleep(1);
                 MouseActions.MouseClick(task.ClickType);
                 Thread.Sleep(sleepTime);
             }
-            if (!task.UserCursor)
+            if (!task.UserCursorActive)
                 MouseClicks.SetCursorPosition(startPos);
         }
 

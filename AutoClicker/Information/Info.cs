@@ -12,9 +12,9 @@ namespace AutoClicker.Information
 {
     public enum Windows
     {
-        Lite,
-        Full,
-        Menu
+        Lite = 1,
+        Full = 2,
+        Menu = 3
     }
 
     public class Actions
@@ -41,17 +41,42 @@ namespace AutoClicker.Information
     }
     public enum Clicks
     {
-        Left,
-        Right,
-        Middle
+        Left = 1,
+        Right = 2,
+        Middle = 3
     }
     public class AutoClickerInfo
     {
-        public TimeSpan Duration { get; set; }
-        public int ClicksPerSecond { get; set; }
-        public TimeSpan StartDelay { get; set; }
-        public Clicks ClickType { get; set; }
-        public bool UserCursor { get; set; }
-        public MouseClicks.MousePoint Point { get; set; }
+        public AutoClickerInfo(
+            TimeSpan duration,
+            int clicksPerSecond,
+            TimeSpan startDelay,
+            Clicks clickType,
+            bool userCursorActive,
+            MouseClicks.MousePoint point)
+        {
+            _duration = duration;
+            _clicksPerSecond = clicksPerSecond;
+            StartDelay = startDelay;
+            ClickType = clickType;
+            UserCursorActive = userCursorActive;
+            Point = point;
+        }
+
+        private readonly TimeSpan _duration;
+        private readonly int _clicksPerSecond;
+        public TimeSpan StartDelay { get; }
+        public Clicks ClickType { get; }
+        public bool UserCursorActive { get; }
+        public MouseClicks.MousePoint Point { get; }
+
+        public TimeSpan SleepTime()
+        {
+            return TimeSpan.FromMilliseconds(1000 / _clicksPerSecond - 3);
+        }
+        public int Cycles()
+        {
+            return (int)(_clicksPerSecond * _duration.TotalSeconds);
+        }
     }
 }
