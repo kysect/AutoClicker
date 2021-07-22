@@ -10,6 +10,12 @@ using System.Windows;
 
 namespace AutoClicker.Information
 {
+    public enum Windows
+    {
+        Lite = 1,
+        Full = 2,
+        Menu = 3
+    }
     public class MySettings
     {
         public MySettings()

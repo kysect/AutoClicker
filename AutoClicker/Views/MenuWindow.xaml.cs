@@ -11,32 +11,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using AutoClicker.LiteVersion;
-using AutoClicker.FullVersion;
 using AutoClicker.Information;
+using AutoClicker.ViewModels;
+using AutoClicker.Views;
 
-namespace AutoClicker
+namespace AutoClicker.Views
 {
-    public partial class MainWindow : Window
+    public partial class MenuWindow : Window
     {
-        public MainWindow()
+        public MenuWindow()
         {
             InitializeComponent();
             MySettings.Settings.LastOpenedWindow = Windows.Menu;
-        }
-
-        private void LiteButton_Click(object sender, RoutedEventArgs e)
-        {
-            var lite = new LiteWindow();
-            lite.Show();
-            Close();
-        }
-
-        private void FullButton_Click(object sender, RoutedEventArgs e)
-        {
-            var full = new FullWindow();
-            full.Show();
-            Close();
+            var vm = new MainViewModel();
+            DataContext = vm;
+            vm.CloseAction ??= () => Close();
         }
     }
 }

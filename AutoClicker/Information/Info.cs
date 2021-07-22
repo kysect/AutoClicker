@@ -4,41 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using AutoClicker.FullVersion;
-using AutoClicker.LiteVersion;
 using AutoClicker.WorkWithDll;
 
 namespace AutoClicker.Information
 {
-    public enum Windows
-    {
-        Lite = 1,
-        Full = 2,
-        Menu = 3
-    }
-
-    public class Actions
-    {
-        public static void OpenWindow(Windows windowType)
-        {
-            switch (windowType)
-            {
-                case Windows.Lite:
-                    new LiteWindow().Show();
-                    return;
-                case Windows.Full:
-                    new FullWindow().Show();
-                    return;
-                case Windows.Menu:
-                    new MainWindow().Show();
-                    return;
-                default:
-                    throw new ArgumentException(
-                        $"Window {windowType} not founded");
-            }
-        }
-
-    }
     public enum Clicks
     {
         Left = 1,
@@ -49,7 +18,7 @@ namespace AutoClicker.Information
     {
         public AutoClickerInfo(
             TimeSpan duration,
-            int clicksPerSecond,
+            uint clicksPerSecond,
             TimeSpan startDelay,
             Clicks clickType,
             bool userCursorActive,
@@ -64,7 +33,7 @@ namespace AutoClicker.Information
         }
 
         private readonly TimeSpan _duration;
-        private readonly int _clicksPerSecond;
+        private readonly uint _clicksPerSecond;
         public TimeSpan StartDelay { get; }
         public Clicks ClickType { get; }
         public bool UserCursorActive { get; }
@@ -74,9 +43,9 @@ namespace AutoClicker.Information
         {
             return TimeSpan.FromMilliseconds(1000 / _clicksPerSecond - 3);
         }
-        public int Cycles()
+        public uint Cycles()
         {
-            return (int)(_clicksPerSecond * _duration.TotalSeconds);
+            return (uint)(_clicksPerSecond * _duration.TotalSeconds);
         }
     }
 }

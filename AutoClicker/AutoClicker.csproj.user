@@ -2,18 +2,18 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="FullVersion\FullWindow.xaml.cs">
+    <Compile Update="Views\FullWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="LiteVersion\LiteWindow.xaml.cs">
+    <Compile Update="Views\LiteWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="FullVersion\FullWindow.xaml">
+    <Page Update="Views\FullWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="LiteVersion\LiteWindow.xaml">
+    <Page Update="Views\LiteWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

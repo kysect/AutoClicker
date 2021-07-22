@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.IO;
 using AutoClicker.Information;
+using AutoClicker.ViewModels;
 using System.Windows.Navigation;
 
 namespace AutoClicker
@@ -27,7 +28,7 @@ namespace AutoClicker
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
-            Actions.OpenWindow(MySettings.Settings.LastOpenedWindow);
+            MainViewModel.OpenNewWindow(MySettings.Settings.LastOpenedWindow);
         }
         protected override void OnExit(ExitEventArgs e)
         {
