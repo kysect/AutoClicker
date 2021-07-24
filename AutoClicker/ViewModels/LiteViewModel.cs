@@ -39,6 +39,12 @@ namespace AutoClicker.ViewModels
             _listener.HookKeyboard();
         }
 
+        private bool CanAccessExecution(Key pressedKey)
+        {
+            if (_actionInProgress)
+                return pressedKey == MySettings.Settings.StopButton;
+            return pressedKey == MySettings.Settings.StartButton;
+        }
         private async void ListenerOnKeyPressed(object sender, KeyPressedArgs e)
         {
             if (_pickingInProgress)
@@ -47,10 +53,7 @@ namespace AutoClicker.ViewModels
                 return;
             }
 
-            if ((_actionInProgress &&
-                 e.KeyPressed == MySettings.Settings.StopButton) ||
-                (!_actionInProgress &&
-                 e.KeyPressed == MySettings.Settings.StartButton))
+            if (CanAccessExecution(e.KeyPressed))
             {
                 await AsyncExecution();
             }
