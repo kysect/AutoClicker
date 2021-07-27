@@ -1,5 +1,4 @@
-﻿using AutoClicker.WorkWithDll;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,43 +12,24 @@ using System.Windows.Threading;
 using AutoClicker.Commands;
 using AutoClicker.Execution;
 using AutoClicker.Information;
+using AutoClicker.WorkWithDll;
 
 namespace AutoClicker.ViewModels
 {
-    public class LiteViewModel : MainViewModel
+    public class LiteViewModel : ListenerViewModel
     {
-        private bool _actionInProgress;
-        private bool _pickingInProgress;
-        private LowLevelKeyboardListener _listener;
-
         public LiteViewModel()
         {
-            StartExecution = new BaseCommand(OnStartExecution);
-            StartPicking = new BaseCommand(OnStartPicking);
-
             SelectedClickType = ClickTypes[0];
 
             SetStart();
         }
 
-        public void OnWindowLoaded(object sender, RoutedEventArgs e)
+        protected override async void ListenerOnKeyPressed(object sender, KeyPressedArgs e)
         {
-            _listener = new LowLevelKeyboardListener();
-            _listener.OnKeyPressed += ListenerOnKeyPressed;
-            _listener.HookKeyboard();
-        }
-
-        private bool CanAccessExecution(Key pressedKey)
-        {
-            if (_actionInProgress)
-                return pressedKey == MySettings.Settings.StopButton;
-            return pressedKey == MySettings.Settings.StartButton;
-        }
-        private async void ListenerOnKeyPressed(object sender, KeyPressedArgs e)
-        {
-            if (_pickingInProgress)
+            if (PickingInProgress)
             {
-                _pickingInProgress = false;
+                PickingInProgress = false;
                 return;
             }
 
@@ -57,11 +37,6 @@ namespace AutoClicker.ViewModels
             {
                 await AsyncExecution();
             }
-        }
-
-        public void OnWindowClosing(object sender, CancelEventArgs e)
-        {
-            _listener.UnHookKeyboard();
         }
 
         public uint Duration { get; set; } = 1000;
@@ -89,20 +64,6 @@ namespace AutoClicker.ViewModels
             }
         }
 
-
-        protected override void OnOpenWindow(object obj)
-        {
-            _actionInProgress = false;
-            _pickingInProgress = false;
-            base.OnOpenWindow(obj);
-        }
-
-        public ICommand StartExecution { get; }
-        private async void OnStartExecution(object obj)
-        {
-            await AsyncExecution();
-        }
-
         private string _startButtonContent;
         public string StartButtonContent
         {
@@ -128,7 +89,7 @@ namespace AutoClicker.ViewModels
         {
             StartButtonContent = content;
             StartButtonBackGround = backgroundColor;
-            _actionInProgress = actionInProgress;
+            ActionInProgress = actionInProgress;
         }
         private void SetStart()
         {
@@ -172,9 +133,9 @@ namespace AutoClicker.ViewModels
                 new MouseClicks.MousePoint(_xCoordinate, _yCoordinate));
             return true;
         }
-        private async Task AsyncExecution()
+        protected override async Task AsyncExecution()
         {
-            if (!_actionInProgress)
+            if (!ActionInProgress)
             {
                 if (!TryParse(out AutoClickerInfo task))
                     return;
@@ -194,7 +155,7 @@ namespace AutoClicker.ViewModels
             Thread.Sleep(task.StartDelay);
             for (uint i = 0; i < cycles; i++)
             {
-                if (!_actionInProgress)
+                if (!ActionInProgress)
                     break;
                 if (!task.UserCursorActive)
                     MouseClicks.SetCursorPosition(task.Point);
@@ -222,29 +183,15 @@ namespace AutoClicker.ViewModels
             set => _userCursorActive = !value;
         }
 
-        public ICommand StartPicking { get; }
-        private async void OnStartPicking(object obj)
+        protected override void PickingCoordinates()
         {
-            _pickingInProgress = true;
-            await Task.Run(() => PickingCoordinates());
-        }
-
-        private void PickingCoordinates()
-        {
-            try
+            while (PickingInProgress)
             {
-                while (_pickingInProgress)
-                {
-                    var currentCoordinates =
-                        MouseClicks.GetCursorPosition();
-                    XCoordinate = currentCoordinates.X;
-                    YCoordinate = currentCoordinates.Y;
-                    Thread.Sleep(1);
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                _pickingInProgress = false;
+                var currentCoordinates =
+                    MouseClicks.GetCursorPosition();
+                XCoordinate = currentCoordinates.X;
+                YCoordinate = currentCoordinates.Y;
+                Thread.Sleep(1);
             }
         }
     }

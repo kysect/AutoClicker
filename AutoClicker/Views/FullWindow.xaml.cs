@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using AutoClicker.Information;
+using AutoClicker.ViewModels;
 
 namespace AutoClicker.Views
 {
@@ -19,6 +21,13 @@ namespace AutoClicker.Views
         public FullWindow()
         {
             InitializeComponent();
+            MySettings.Settings.LastOpenedWindow = Windows.Full;
+
+            var vm = new FullViewModel();
+            DataContext = vm;
+            vm.CloseAction ??= () => Close();
+            Loaded += vm.OnWindowLoaded;
+            Closing += vm.OnWindowClosing;
         }
     }
 }
