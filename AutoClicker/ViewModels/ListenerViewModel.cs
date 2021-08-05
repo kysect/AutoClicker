@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using AutoClicker.Commands;
 using AutoClicker.Information;
-using AutoClicker.WorkWithDll;
+using AutoClicker.WorkWithDll.Listener;
 
 namespace AutoClicker.ViewModels
 {
@@ -17,7 +18,7 @@ namespace AutoClicker.ViewModels
         protected bool ActionInProgress;
         protected bool PickingInProgress;
 
-        private LowLevelKeyboardListener _listener;
+        private LowLevelListener _listener;
 
         protected ListenerViewModel()
         {
@@ -32,25 +33,33 @@ namespace AutoClicker.ViewModels
             base.OnOpenWindow(obj);
         }
 
-        public void OnWindowLoaded(object sender, RoutedEventArgs e)
-        {
-            _listener = new LowLevelKeyboardListener();
-            _listener.OnKeyPressed += ListenerOnKeyPressed;
-            _listener.HookKeyboard();
-        }
-
         protected bool CanAccessExecution(Key pressedKey)
         {
             if (ActionInProgress)
                 return pressedKey == MySettings.Settings.StopButton;
             return pressedKey == MySettings.Settings.StartButton;
         }
+
+
+        public void OnWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            _listener = new LowLevelListener();
+            _listener.OnKeyPressed += ListenerOnKeyPressed;
+            _listener.OnMouseMessage += ListenerOnMouseMessage;
+            _listener.OnMouseMoved += ListenerOnMouseMoved;
+            _listener.HookKeyboard();
+        }
+
         protected abstract void ListenerOnKeyPressed(object sender, KeyPressedArgs e);
+        protected abstract void ListenerOnMouseMessage(object sender, MouseArgs e);
+        protected abstract void ListenerOnMouseMoved(object sender, EventArgs e);
+
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
             _listener.UnHookKeyboard();
         }
+
 
         public ICommand StartExecution { get; }
 
@@ -64,12 +73,9 @@ namespace AutoClicker.ViewModels
 
         public ICommand StartPicking { get; }
 
-        protected async void OnStartPicking(object obj)
+        protected void OnStartPicking(object obj)
         {
             PickingInProgress = true;
-            await Task.Run(() => PickingCoordinates());
         }
-
-        protected abstract void PickingCoordinates();
     }
 }

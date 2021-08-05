@@ -15,7 +15,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AutoClicker.WorkWithDll;
 using AutoClicker.Information;
-using AutoClicker.Execution;
 using AutoClicker.ViewModels;
 
 namespace AutoClicker.Views

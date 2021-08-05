@@ -8,21 +8,15 @@ using AutoClicker.WorkWithDll;
 
 namespace AutoClicker.Information
 {
-    public enum Clicks
-    {
-        Left = 1,
-        Right = 2,
-        Middle = 3
-    }
     public class AutoClickerInfo
     {
         public AutoClickerInfo(
             TimeSpan duration,
             uint clicksPerSecond,
             TimeSpan startDelay,
-            Clicks clickType,
+            MouseMessages clickType,
             bool userCursorActive,
-            MouseClicks.MousePoint point)
+            MousePoint point)
         {
             _duration = duration;
             _clicksPerSecond = clicksPerSecond;
@@ -35,9 +29,9 @@ namespace AutoClicker.Information
         private readonly TimeSpan _duration;
         private readonly uint _clicksPerSecond;
         public TimeSpan StartDelay { get; }
-        public Clicks ClickType { get; }
+        public MouseMessages ClickType { get; }
         public bool UserCursorActive { get; }
-        public MouseClicks.MousePoint Point { get; }
+        public MousePoint Point { get; }
 
         public TimeSpan SleepTime()
         {

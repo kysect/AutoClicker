@@ -10,9 +10,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using AutoClicker.Commands;
-using AutoClicker.Execution;
 using AutoClicker.Information;
 using AutoClicker.WorkWithDll;
+using AutoClicker.WorkWithDll.InputSimulation;
+using AutoClicker.WorkWithDll.Listener;
 
 namespace AutoClicker.ViewModels
 {
@@ -27,6 +28,11 @@ namespace AutoClicker.ViewModels
 
         protected override async void ListenerOnKeyPressed(object sender, KeyPressedArgs e)
         {
+            if (!e.KeyDown)
+            {
+                return;
+            }
+
             if (PickingInProgress)
             {
                 PickingInProgress = false;
@@ -37,6 +43,26 @@ namespace AutoClicker.ViewModels
             {
                 await AsyncExecution();
             }
+        }
+
+        protected override void ListenerOnMouseMessage(object sender, MouseArgs e)
+        {
+            if (PickingInProgress)
+            {
+                PickingInProgress = false;
+            }
+        }
+
+        protected override void ListenerOnMouseMoved(object sender, EventArgs e)
+        {
+            if (!PickingInProgress)
+                return;
+
+            var currentCoordinates =
+                MouseCursor.GetCursorPosition();
+
+            XCoordinate = currentCoordinates.X;
+            YCoordinate = currentCoordinates.Y;
         }
 
         public uint Duration { get; set; } = 1000;
@@ -112,6 +138,21 @@ namespace AutoClicker.ViewModels
 
         public string SelectedClickType { get; set; }
 
+        private bool _userCursorActive;
+        public bool UserCursorActive
+        {
+            get => _userCursorActive;
+            set
+            {
+                _userCursorActive = value;
+                OnPropertyChanged(nameof(CoordinatesActive));
+            }
+        }
+        public bool CoordinatesActive
+        {
+            get => !_userCursorActive;
+            set => _userCursorActive = !value;
+        }
 
         private const uint MinClicksPerSecond = 1;
         private const uint MaxClicksPerSecond = 100;
@@ -128,9 +169,9 @@ namespace AutoClicker.ViewModels
                 TimeSpan.FromMilliseconds(Duration),
                 ClicksPerSecond,
                 TimeSpan.FromMilliseconds(Delay),
-                (Clicks)Enum.Parse(typeof(Clicks), SelectedClickType),
+                (MouseMessages)Enum.Parse(typeof(MouseMessages), SelectedClickType),
                 _userCursorActive,
-                new MouseClicks.MousePoint(_xCoordinate, _yCoordinate));
+                new MousePoint(_xCoordinate, _yCoordinate));
             return true;
         }
         protected override async Task AsyncExecution()
@@ -149,7 +190,7 @@ namespace AutoClicker.ViewModels
 
         private void Execution(AutoClickerInfo task)
         {
-            var startPos = MouseClicks.GetCursorPosition();
+            var startPos = MouseCursor.GetCursorPosition();
             TimeSpan sleepTime = task.SleepTime();
             uint cycles = task.Cycles();
             Thread.Sleep(task.StartDelay);
@@ -158,41 +199,13 @@ namespace AutoClicker.ViewModels
                 if (!ActionInProgress)
                     break;
                 if (!task.UserCursorActive)
-                    MouseClicks.SetCursorPosition(task.Point);
+                    MouseCursor.SetCursorPosition(task.Point);
                 Thread.Sleep(1);
                 MouseActions.MouseClick(task.ClickType);
                 Thread.Sleep(sleepTime);
             }
             if (!task.UserCursorActive)
-                MouseClicks.SetCursorPosition(startPos);
-        }
-
-        private bool _userCursorActive;
-        public bool UserCursorActive
-        {
-            get => _userCursorActive;
-            set
-            {
-                _userCursorActive = value;
-                OnPropertyChanged(nameof(CoordinatesActive));
-            }
-        }
-        public bool CoordinatesActive
-        {
-            get => !_userCursorActive;
-            set => _userCursorActive = !value;
-        }
-
-        protected override void PickingCoordinates()
-        {
-            while (PickingInProgress)
-            {
-                var currentCoordinates =
-                    MouseClicks.GetCursorPosition();
-                XCoordinate = currentCoordinates.X;
-                YCoordinate = currentCoordinates.Y;
-                Thread.Sleep(1);
-            }
+                MouseCursor.SetCursorPosition(startPos);
         }
     }
 }

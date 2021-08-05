@@ -42,7 +42,8 @@
             Grid.RowSpan="3"
             TextWrapping="Wrap"
             AcceptsReturn="True"
-            VerticalScrollBarVisibility="Auto">
+            VerticalScrollBarVisibility="Auto"
+            Text="{Binding TextBoxInput}">
         </TextBox>
     </Grid>
 </Window>
