@@ -103,54 +103,5 @@ namespace AutoClicker.WorkWithDll.InputSimulation
 
             SendInput(1, new [] { input }, Input.Size);
         }
-    /*    public static void SendInputWithAPI(Key k)
-        {
-            Input[] Inputs = new Input[1];
-            Input Input = new Input();
-
-            Input.type = 1; // 1 = Keyboard Input
-            Input.U.ki.wVk = (short)KeyInterop.VirtualKeyFromKey(k);
-            //Input.U.ki.wScan = KeyInterop.VirtualKeyFromKey(k);
-            Input.U.ki.dwFlags = KeyEventF.Unicode;
-            Inputs[0] = Input;
-
-
-            SendInput(1, Inputs, Input.Size);
-        }
-
-        public static void SendInputWithAPI(char c)
-        {
-            Input[] Inputs = new Input[1];
-            Input Input = new Input();
-
-            *//*Input.type = 0;
-            Input.U.mi.dwFlags = MOUSEEVENTF.LEFTDOWN;*//*
-            Input.U.ki.wScan = (short)c;
-            Input.type = 1; // 1 = Keyboard Input
-            Input.U.ki.dwFlags = KeyEventF.Unicode;
-            //Input.U.ki.wVk = (short)KeyInterop.VirtualKeyFromKey(k);
-            //Input.U.ki.wScan = KeyInterop.VirtualKeyFromKey(k);
-            //Input.U.ki.dwFlags = KEYEVENTF.UNICODE;
-            Inputs[0] = Input;
-
-
-            SendInput(1, Inputs, Input.Size);
-        }
-*/
-       /* public static void SendInputWithAPI(MouseMessages s)
-        {
-            Input[] Inputs = new Input[1];
-            Input Input = new Input();
-            unchecked
-            {
-                Input.type = 0;
-                Input.U.mi.DwFlags = s;
-                Input.U.mi.MouseData = (uint)(-120);
-                Inputs[0] = Input;
-            }
-
-
-            SendInput(1, Inputs, Input.Size);
-        }*/
     }
 }
