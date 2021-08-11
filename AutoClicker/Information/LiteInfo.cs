@@ -8,9 +8,9 @@ using AutoClicker.WorkWithDll;
 
 namespace AutoClicker.Information
 {
-    public class AutoClickerInfo
+    public class LiteClickerInfo
     {
-        public AutoClickerInfo(
+        public LiteClickerInfo(
             TimeSpan duration,
             uint clicksPerSecond,
             TimeSpan startDelay,

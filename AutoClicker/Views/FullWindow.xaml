@@ -43,7 +43,15 @@
             TextWrapping="Wrap"
             AcceptsReturn="True"
             VerticalScrollBarVisibility="Auto"
-            Text="{Binding TextBoxInput}">
+            Text="{Binding TextBoxInput,
+                UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
+        <Button 
+            x:Name="RecordButton"
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="50,20,50,20"
+            Content="Record"
+            Command="{Binding StartRecording}"/>
     </Grid>
 </Window>

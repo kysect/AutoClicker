@@ -156,7 +156,7 @@ namespace AutoClicker.ViewModels
 
         private const uint MinClicksPerSecond = 1;
         private const uint MaxClicksPerSecond = 100;
-        public bool TryParse(out AutoClickerInfo task)
+        public bool TryParse(out LiteClickerInfo task)
         {
             if (ClicksPerSecond > MaxClicksPerSecond ||
                 ClicksPerSecond < MinClicksPerSecond)
@@ -165,7 +165,7 @@ namespace AutoClicker.ViewModels
                 task = null;
                 return false;
             }
-            task = new AutoClickerInfo(
+            task = new LiteClickerInfo(
                 TimeSpan.FromMilliseconds(Duration),
                 ClicksPerSecond,
                 TimeSpan.FromMilliseconds(Delay),
@@ -178,7 +178,7 @@ namespace AutoClicker.ViewModels
         {
             if (!ActionInProgress)
             {
-                if (!TryParse(out AutoClickerInfo task))
+                if (!TryParse(out LiteClickerInfo task))
                     return;
 
                 SetStop();
@@ -188,7 +188,7 @@ namespace AutoClicker.ViewModels
             SetStart();
         }
 
-        private void Execution(AutoClickerInfo task)
+        private void Execution(LiteClickerInfo task)
         {
             var startPos = MouseCursor.GetCursorPosition();
             TimeSpan sleepTime = task.SleepTime();
