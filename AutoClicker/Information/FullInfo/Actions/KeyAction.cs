@@ -14,7 +14,7 @@ namespace AutoClicker.Information.FullInfo.Actions
         private bool _keyDown;
         public bool TryParse(string input)
         {
-            var keyContent = input.Split(", ");
+            var keyContent = input.Replace(" ", "").Split(',');
             if (keyContent.Length != 2)
                 return false;
 

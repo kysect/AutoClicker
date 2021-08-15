@@ -30,12 +30,9 @@ namespace AutoClicker.Information.FullInfo
         {
             actionList = new List<IAction>();
 
-            var actions = input.Split(';', '\n');
+            var actions = input.Trim('\n').Split(';', StringSplitOptions.RemoveEmptyEntries);
             foreach (var actionInfo in actions)
             {
-                if (actionInfo == "")
-                    continue;
-
                 var content = actionInfo.Split('(', ')');
                 if (content.Length != 3)
                     return false;

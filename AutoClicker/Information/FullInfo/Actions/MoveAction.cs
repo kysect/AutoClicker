@@ -14,7 +14,7 @@ namespace AutoClicker.Information.FullInfo.Actions
 
         public bool TryParse(string input)
         {
-            var coordsContent = input.Split(", ");
+            var coordsContent = input.Replace(" ", "").Split(',');
             if (coordsContent.Length != 2)
                 return false;
 

@@ -44,6 +44,7 @@ namespace AutoClicker.ViewModels
                 if (!ActionParser.TryParse(TextBoxInput, out List<IAction> actionList))
                 {
                     MessageBox.Show("Wrong input!");
+                    return;
                 }
 
                 ActionInProgress = true;
