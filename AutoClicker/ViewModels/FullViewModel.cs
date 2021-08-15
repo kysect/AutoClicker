@@ -10,6 +10,8 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using AutoClicker.Commands;
 using AutoClicker.Information;
+using AutoClicker.Information.FullInfo;
+using AutoClicker.Information.FullInfo.Actions;
 using AutoClicker.WorkWithDll;
 using AutoClicker.WorkWithDll.InputSimulation;
 using AutoClicker.WorkWithDll.Listener;
@@ -39,7 +41,7 @@ namespace AutoClicker.ViewModels
         {
             if (!ActionInProgress)
             {
-                if (!Parser.TryParse(TextBoxInput, out List<IAction> actionList))
+                if (!ActionParser.TryParse(TextBoxInput, out List<IAction> actionList))
                 {
                     MessageBox.Show("Wrong input!");
                 }
@@ -61,17 +63,17 @@ namespace AutoClicker.ViewModels
             }
         }
         
-        private void RecordSingleAction(Actions action, string info)
+        private void RecordSingleAction(ActionType action, string info)
         {
             TextBoxInput += $"{action}({info});\n";
         }
-        private void RecordAction(Actions action, string info)
+        private void RecordAction(ActionType action, string info)
         {
             TimeSpan timeBetweenActions = DateTime.Now - _lastActionTime;
             int millisecondsBetweenActions = timeBetweenActions.Milliseconds;
             if (millisecondsBetweenActions != 0)
             {
-                RecordSingleAction(Actions.Sleep, millisecondsBetweenActions.ToString());
+                RecordSingleAction(ActionType.Sleep, millisecondsBetweenActions.ToString());
             }
 
             RecordSingleAction(action, info);
@@ -81,7 +83,7 @@ namespace AutoClicker.ViewModels
         {
             if (_recordingInProgress)
             {
-                RecordAction(Actions.Key, e.KeyPressed + ", " + (e.KeyDown ? "down" : "up"));
+                RecordAction(ActionType.Key, e.KeyPressed + ", " + (e.KeyDown ? "down" : "up"));
             }
 
             if (!e.KeyDown)
@@ -97,7 +99,7 @@ namespace AutoClicker.ViewModels
         {
             if (_recordingInProgress)
             {
-                RecordAction(Actions.Mouse, e.Message.ToString());
+                RecordAction(ActionType.Mouse, e.Message.ToString());
             }
         }
 
@@ -106,7 +108,7 @@ namespace AutoClicker.ViewModels
             if (_recordingInProgress)
             {
                 MousePoint currentPosition = MouseCursor.GetCursorPosition();
-                RecordAction(Actions.Move, currentPosition.X + ", " + currentPosition.Y);
+                RecordAction(ActionType.Move, currentPosition.X + ", " + currentPosition.Y);
             }
         }
 

@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace AutoClicker.WorkWithDll.InputSimulation
 {
-    public class SimulateInput
+    public static class SimulateInput
     {
         [DllImport("user32.dll")]
         private static extern void SendInput(
