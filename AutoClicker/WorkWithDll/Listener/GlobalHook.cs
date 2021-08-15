@@ -107,24 +107,4 @@ namespace AutoClicker.WorkWithDll.Listener
             return CallNextHookEx(_mouseHookId, nCode, wParam, lParam);
         }
     }
-
-    public class KeyPressedArgs : EventArgs
-    {
-        public Key KeyPressed { get; set; }
-        public bool KeyDown { get; set; }
-        public KeyPressedArgs(Key key, bool keyDown)
-        {
-            KeyPressed = key;
-            KeyDown = keyDown;
-        }
-    }
-
-    public class MouseArgs : EventArgs
-    {
-        public MouseMessages Message { get; set; }
-        public MouseArgs(MouseMessages message)
-        {
-            Message = message;
-        }
-    }
 }

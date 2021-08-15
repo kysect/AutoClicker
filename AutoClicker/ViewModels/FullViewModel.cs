@@ -69,15 +69,15 @@ namespace AutoClicker.ViewModels
         }
         private void RecordAction(ActionType action, string info)
         {
-            TimeSpan timeBetweenActions = DateTime.Now - _lastActionTime;
-            int millisecondsBetweenActions = timeBetweenActions.Milliseconds;
+            DateTime currentTime = DateTime.Now;
+            int millisecondsBetweenActions = (currentTime - _lastActionTime).Milliseconds;
             if (millisecondsBetweenActions != 0)
             {
                 RecordSingleAction(ActionType.Sleep, millisecondsBetweenActions.ToString());
             }
-
+            
             RecordSingleAction(action, info);
-            _lastActionTime = DateTime.Now;
+            _lastActionTime = currentTime;
         }
         protected override async void ListenerOnKeyPressed(object sender, KeyPressedArgs e)
         {

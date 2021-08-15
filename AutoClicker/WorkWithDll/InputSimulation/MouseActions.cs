@@ -18,9 +18,7 @@ namespace AutoClicker.WorkWithDll.InputSimulation
         {
             SimulateInput.SimpleMouseEvent(_mouseUp);
         }
-        public Click(
-            MouseMessages mouseDown,
-            MouseMessages mouseUp)
+        public Click(MouseMessages mouseDown, MouseMessages mouseUp)
         {
             _mouseDown = mouseDown;
             _mouseUp = mouseUp;
