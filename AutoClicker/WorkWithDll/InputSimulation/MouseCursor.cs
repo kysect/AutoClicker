@@ -2,7 +2,7 @@
 
 namespace AutoClicker.WorkWithDll.InputSimulation
 {
-    public class MouseCursor
+    public static class MouseCursor
     {
         [DllImport("user32.dll", EntryPoint = "SetCursorPos")]
         [return: MarshalAs(UnmanagedType.Bool)]

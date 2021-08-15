@@ -21,7 +21,7 @@ namespace AutoClicker.WorkWithDll.Listener
         XUp = 0x020C
     }
     
-    public class MouseConverter
+    public static class MouseConverter
     {
         public static MouseMessages GetMouseMessage(Wm inputType, IntPtr lParam)
         {

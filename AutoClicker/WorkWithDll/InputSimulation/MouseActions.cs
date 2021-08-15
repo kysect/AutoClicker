@@ -25,7 +25,7 @@ namespace AutoClicker.WorkWithDll.InputSimulation
         }
     }
 
-    public class MouseActions
+    public static class MouseActions
     {
         public static readonly Dictionary<MouseMessages, Click> ClicksDictionary =
             new()
