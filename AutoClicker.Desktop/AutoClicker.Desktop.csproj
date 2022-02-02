@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+	<ItemGroup>
+    <Folder Include="Views\ValidationRules\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <ProjectReference Include="..\AutoClicker.Core\AutoClicker.Core.csproj" />
+	  <ProjectReference Include="..\AutoClicker.Full\AutoClicker.Full.csproj" />
+	  <ProjectReference Include="..\AutoClicker.Lite\AutoClicker.Lite.csproj" />
+  </ItemGroup>
+
+</Project>

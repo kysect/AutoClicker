@@ -1,9 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31025.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoClicker", "AutoClicker\AutoClicker.csproj", "{52CFDF81-589F-4AC4-90EB-8834A079C9E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoClicker.Desktop", "AutoClicker.Desktop\AutoClicker.Desktop.csproj", "{6D63F5A2-F97D-45B7-B366-CA4D9A0797BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoClicker.Lite", "AutoClicker.Lite\AutoClicker.Lite.csproj", "{8CB3253C-B692-41AB-ABEE-C900C3A3ED4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoClicker.Full", "AutoClicker.Full\AutoClicker.Full.csproj", "{991CDE12-1A9B-4CD1-A1EB-44D826AE993C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Versions", "Versions", "{8AA717C4-E689-469C-B5A7-BE40E2575285}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoClicker.Core", "AutoClicker.Core\AutoClicker.Core.csproj", "{120673EA-392D-4BE5-87BC-3DDA5AF42AD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoClicker.Common", "AutoClicker.Common\AutoClicker.Common.csproj", "{659B157D-B7E7-412C-9EAC-2983D184FDA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +27,33 @@ Global
 		{52CFDF81-589F-4AC4-90EB-8834A079C9E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52CFDF81-589F-4AC4-90EB-8834A079C9E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52CFDF81-589F-4AC4-90EB-8834A079C9E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D63F5A2-F97D-45B7-B366-CA4D9A0797BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D63F5A2-F97D-45B7-B366-CA4D9A0797BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D63F5A2-F97D-45B7-B366-CA4D9A0797BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D63F5A2-F97D-45B7-B366-CA4D9A0797BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB3253C-B692-41AB-ABEE-C900C3A3ED4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB3253C-B692-41AB-ABEE-C900C3A3ED4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB3253C-B692-41AB-ABEE-C900C3A3ED4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB3253C-B692-41AB-ABEE-C900C3A3ED4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{991CDE12-1A9B-4CD1-A1EB-44D826AE993C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{991CDE12-1A9B-4CD1-A1EB-44D826AE993C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{991CDE12-1A9B-4CD1-A1EB-44D826AE993C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{991CDE12-1A9B-4CD1-A1EB-44D826AE993C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{120673EA-392D-4BE5-87BC-3DDA5AF42AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{120673EA-392D-4BE5-87BC-3DDA5AF42AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{120673EA-392D-4BE5-87BC-3DDA5AF42AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{120673EA-392D-4BE5-87BC-3DDA5AF42AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{659B157D-B7E7-412C-9EAC-2983D184FDA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{659B157D-B7E7-412C-9EAC-2983D184FDA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{659B157D-B7E7-412C-9EAC-2983D184FDA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{659B157D-B7E7-412C-9EAC-2983D184FDA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8CB3253C-B692-41AB-ABEE-C900C3A3ED4C} = {8AA717C4-E689-469C-B5A7-BE40E2575285}
+		{991CDE12-1A9B-4CD1-A1EB-44D826AE993C} = {8AA717C4-E689-469C-B5A7-BE40E2575285}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE6B5A5D-FF88-466C-BADF-CC5925374D9C}
